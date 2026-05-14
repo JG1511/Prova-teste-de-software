@@ -23,7 +23,7 @@ public class CarroServiceTest {
         Carro resultado = carroService.save(carro);
 
         assertEquals("Corola", resultado.getModelo());
-        assertEquals("Civic", resultado.getMarca());
+        assertEquals("Toyota", resultado.getMarca());
         assertEquals(2022, resultado.getAno());
     }
 
@@ -39,7 +39,7 @@ public class CarroServiceTest {
 
         assertEquals(carroSalvo.getId(), resultado.getId());
         assertEquals("Civic", carroSalvo.getModelo());
-        assertEquals("Toyota", carroSalvo.getMarca());
+        assertEquals("Honda", carroSalvo.getMarca());
         assertEquals(2022, carroSalvo.getAno());
     }
 }
