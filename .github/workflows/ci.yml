@@ -1,6 +1,6 @@
-name : CI - Testes Automatizados
+name: CI - Testes Automatizados
 
-on :
+on:
   push:
     branches:
       - main
@@ -11,6 +11,20 @@ jobs:
   test:
     name: Rodar testes com Maven
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: loja-carro
+        ports:
+        - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Baixar código do repo
