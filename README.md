@@ -54,4 +54,29 @@ Optional<Carro> resultado = carroService.findByIdTest(salvo.getId());
 Carro carroErrado = new Carro();
 carroErrado.setMarca("Toyota");
 carroService.updateTest(carroErrado); // Lança RuntimeException
+```
+### Caso queira popularizar o BD (Lembrando que cada teste limpa o BD)
+```mysql
+-- Criação da tabela Carro
+CREATE TABLE IF NOT EXISTS carro (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    modelo VARCHAR(255) NOT NULL,
+    marca VARCHAR(255) NOT NULL,
+    ano INT NOT NULL
+);
+
+-- Inserindo carros válidos (passam no saveTest)
+INSERT INTO carro (modelo, marca, ano) VALUES
+('Civic', 'Honda', 2022),
+('City', 'Honda', 2022),
+('Fit', 'Honda', 2021);
+
+-- Inserindo carros inválidos (não passam no saveTest)
+INSERT INTO carro (modelo, marca, ano) VALUES
+('Corola', 'Toyota', 2022),
+('SW4', 'Toyota', 2023),
+('Uno', 'Fiat', 2020);
+
+-- Opcional: verificar o conteúdo
+SELECT * FROM carro;
 
