@@ -23,7 +23,6 @@
 	</properties>
 
 	<dependencies>
-
 		<!-- API REST -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -50,14 +49,85 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Spring Boot Starter Security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- Caso use JWT para autenticação -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- Spring Boot Maven Plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<!-- Maven Surefire para execução de testes -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+
+			<!-- Plugin do PIT para Mutation Testing -->
+			<plugin>
+				<groupId>org.pitest</groupId>
+				<artifactId>pitest-maven</artifactId>
+				<version>1.19.4</version>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.pitest</groupId>
+						<artifactId>pitest-junit5-plugin</artifactId>
+						<version>1.2.2</version>
+					</dependency>
+				</dependencies>
+
+				<configuration>
+
+					<targetClasses>
+						<param>br.org.edu.ifrn.*</param>
+					</targetClasses>
+
+					<targetTests>
+						<param>br.org.edu.ifrn.*</param>
+					</targetTests>
+
+					<excludedClasses>
+						<param>*Application</param>
+					</excludedClasses>
+
+					<outputFormats>
+						<param>HTML</param>
+						<param>XML</param>
+					</outputFormats>
+
+					<threads>4</threads>
+
+					<timestampedReports>false</timestampedReports>
+
+					<mutationThreshold>70</mutationThreshold>
+
+					<coverageThreshold>80</coverageThreshold>
+
+				</configuration>
+
+			</plugin>
+
 		</plugins>
 	</build>
 
