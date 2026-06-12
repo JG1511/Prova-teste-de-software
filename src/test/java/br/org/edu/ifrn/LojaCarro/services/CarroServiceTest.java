@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class CarroServiceTest {
+public class CarroServiceTeste {
 
     @Autowired
     private CarroService carroService;
@@ -20,7 +20,7 @@ public class CarroServiceTest {
         carro.setMarca("Toyota");
         carro.setAno(2022);
 
-        Carro resultado = carroService.save(carro);
+        Carro resultado = carroService.saveTest(carro);
 
         assertEquals("Corola", resultado.getModelo());
         assertEquals("Toyota", resultado.getMarca());
@@ -34,8 +34,8 @@ public class CarroServiceTest {
         carro.setMarca("Honda");
         carro.setAno(2022);
 
-        Carro carroSalvo = carroService.save(carro);
-        Carro resultado = carroService.findById(carroSalvo.getId()).get();
+        Carro carroSalvo = carroService.saveTest(carro);
+        Carro resultado = carroService.findByIdTest(carroSalvo.getId()).get();
 
         assertEquals(carroSalvo.getId(), resultado.getId());
         assertEquals("Civic", carroSalvo.getModelo());
