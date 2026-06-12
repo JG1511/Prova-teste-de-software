@@ -80,3 +80,9 @@ INSERT INTO carro (modelo, marca, ano) VALUES
 -- Opcional: verificar o conteúdo
 SELECT * FROM carro;
 
+```
+## Teste de Mutante
+
+Na prática ele faz pequenas alterações no seu código, para assim você poder saber quais são os possiveis testes que voê terá que ajustar
+
+![Tela Home](image/Teste-do-Pit.png)
