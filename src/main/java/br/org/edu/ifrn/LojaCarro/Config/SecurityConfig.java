@@ -29,11 +29,18 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
+        UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
+                .password("1234")
+                .roles("ADMIN")
+                .build();
+
+        UserDetails vendedor = User.withDefaultPasswordEncoder()
+                .username("vendedor")
                 .password("1234")
                 .roles("USER")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+
+        return new InMemoryUserDetailsManager(admin, vendedor);
     }
 }
