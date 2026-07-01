@@ -33,14 +33,15 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                                        .requestMatchers("/auth/login").permitAll()
-                                        .requestMatchers("/public/**").permitAll()
-                                        .requestMatchers("/carro/salvar").hasRole("ADMIN")
-                                        .requestMatchers("/carro/{id}").hasRole("ADMIN")
-                                        .requestMatchers("/carro/**").hasAnyRole("USER", "ADMIN")
-                                        .anyRequest().authenticated()
-                                )
+                                                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                                        .requestMatchers(HttpMethod.POST, "/users", "/users/").permitAll()
+                                                        .requestMatchers("/auth/login").permitAll()
+                                                        .requestMatchers("/public/**").permitAll()
+                                                        .requestMatchers("/carro/salvar").hasRole("ADMIN")
+                                                        .requestMatchers("/carro/{id}").hasRole("ADMIN")
+                                                        .requestMatchers("/carro/**").hasAnyRole("USER", "ADMIN")
+                                                        .anyRequest().authenticated()
+                                                )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
