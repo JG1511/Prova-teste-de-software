@@ -16,6 +16,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 public class SecurityConfig {
@@ -29,32 +33,21 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/carro/salvar").hasRole("ADMIN")
-                        .requestMatchers("/carro/{id}").hasRole("ADMIN")
-                        .requestMatchers("/carro/**").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().authenticated()
-                )
+                                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                                        .requestMatchers("/auth/login").permitAll()
+                                        .requestMatchers("/public/**").permitAll()
+                                        .requestMatchers("/carro/salvar").hasRole("ADMIN")
+                                        .requestMatchers("/carro/{id}").hasRole("ADMIN")
+                                        .requestMatchers("/carro/**").hasAnyRole("USER", "ADMIN")
+                                        .anyRequest().authenticated()
+                                )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("1234")
-                .roles("ADMIN")
-                .build();
-
-        UserDetails vendedor = User.withDefaultPasswordEncoder()
-                .username("vendedor")
-                .password("1234")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, vendedor);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

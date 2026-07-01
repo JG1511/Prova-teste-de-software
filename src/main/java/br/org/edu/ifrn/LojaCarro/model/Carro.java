@@ -3,7 +3,7 @@ package br.org.edu.ifrn.LojaCarro.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Carro {
+public class    Carro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
