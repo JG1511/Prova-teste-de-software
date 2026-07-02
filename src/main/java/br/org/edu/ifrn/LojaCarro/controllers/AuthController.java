@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/auth")
@@ -18,11 +19,18 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO dto) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO dto) {
         var authToken = new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
 
         Authentication authentication = authenticationManager.authenticate(authToken);
 
-        return tokenService.gerarToken(authentication.getName());
+        String token = tokenService.gerarToken(authentication.getName());
+        String username = authentication.getName();
+        String role = authentication.getAuthorities().stream()
+                .findFirst()
+                .map(org.springframework.security.core.GrantedAuthority::getAuthority)
+                .orElse(null);
+
+        return ResponseEntity.ok(new LoginResponse(token, username, role));
     }
 }
