@@ -52,10 +52,12 @@ public class CarroControllerTest {
         carro.setMarca("Toyota");
         carro.setAno(2022);
 
-        assertThrows(RuntimeException.class, () -> {
-            carroService.saveTest(carro);
-        });
-        System.out.println("HTTP 500 OK");
+        Carro resultado = carroService.saveTest(carro);
+
+        assertEquals("SW4", resultado.getModelo());
+        assertEquals("Toyota", resultado.getMarca());
+        assertEquals(2022, resultado.getAno());
+        System.out.println("HTTP 200 OK");
     }
 
     @Test

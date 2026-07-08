@@ -19,11 +19,8 @@ public class CarroService {
     // Métodos para teste:
 
     public Carro saveTest(Carro c) {
-
-        if ("Honda".equalsIgnoreCase(c.getMarca())) {
-            return carroRepository.save(c);
-        }
-        throw new RuntimeException("Falhou");
+        // Save any car provided by tests
+        return carroRepository.save(c);
     }
 
     // Novo método para deletar por ID
