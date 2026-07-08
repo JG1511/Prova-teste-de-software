@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
+
 jobs:
   test:
-    name: Rodar testes com Maven
+    name: Testes, cobertura e análise Sonar
     runs-on: ubuntu-latest
 
     services:
@@ -19,7 +21,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: loja-carro
         ports:
-        - 3306:3306
+          - 3306:3306
         options: >-
           --health-cmd="mysqladmin ping -h localhost"
           --health-interval=10s
@@ -29,13 +31,20 @@ jobs:
     steps:
       - name: Baixar código do repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configurar Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+          distribution: temurin
+          java-version: "17"
+          cache: maven
 
-      - name: Rodar testes
-        run: mvn test
+      - name: Rodar testes, gerar cobertura e analisar no Sonar
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: >
+          mvn -B clean verify
+          org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=JG1511_Prova-teste-de-software

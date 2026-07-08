@@ -34,7 +34,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                                                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                                        .requestMatchers("/users/**").permitAll()
+                                                        .requestMatchers("/use  rs/**").permitAll()
                                                         .requestMatchers("/auth/login").permitAll()
                                                         .requestMatchers("/public/**").permitAll()
                                                         .requestMatchers(HttpMethod.GET, "/carro").permitAll()
